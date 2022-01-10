@@ -1,0 +1,120 @@
+Windows 10 version should be 1904 or higher
+1.	Check windows version by pressing Windows key + R and run winver.
+
+WSL 2 setup:
+
+1.	Enable WSL by opening Power shell as administrator and the command below
+
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+
+2.	Enable Virtual Machine Platform using below command in power shell
+
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+
+3.	Set WSL as default using below command in power shell
+
+wsl --set-default-version 2
+
+
+4.	List the distributions in powershell by using following command
+
+wsl --list --online
+
+
+5.	Install Ubuntu distribution by using the following command in powershell
+
+wsl --install -d <Distribution name>
+
+6.	Restart your system immediately for setting the user name and password for WSL2
+
+7.	After restart a window will open automatically to continue the installation and setting user name, password.
+
+8.	Run lsb_release -a to check the Ubuntu version.
+
+Install PHP, git, composer etc:
+
+1.	sudo apt install software-properties-common
+2.	sudo add-apt-repository ppa:git-core/ppa
+3.	sudo add-apt-repository ppa:ondrej/php
+4.	sudo apt update
+5.	sudo apt upgrade
+6.	sudo apt-get install -y php8.0-cli php8.0-curl php8.0-xml php8.0-mbstring php8.0-bz2 php8.0-gd php8.0-mysql mysql-client zip unzip git
+7.	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+8.	php composer-setup.php
+9.	sudo mv composer.phar /usr/local/bin/composer
+10.	curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - sudo apt-get install -y nodejs
+11.     git --version (Same version should be installed in windows as well)
+12.     php -v
+
+Git configure:
+
+1.	git config --global user.email “abc@xyz.com”
+2.	git config --global user.name “abc”
+
+Install Drush globally
+
+1.	composer global require drush/drush
+2.	sudo vi ~/.bashrc
+3.	Press i in keyboard for insert
+4.	#path for drush
+5.	export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+6.	Press ctrl+c and :wq to save and exit
+7.	source ~/.bashrc
+
+
+Vagrant install:
+
+1.	wget -c https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb
+2.	sudo dpkg -i vagrant_2.2.19_x86_64.deb
+3.	sudo vi ~/.bashrc
+4.	Press i in keyboard for insert
+5.      export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+6.	export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+7.	Press ctrl+c and :wq to save and exit
+8.	source ~/.bashrc
+
+NFS server install:
+
+sudo apt-get install -y nfs-server
+
+
+Cloning git repo:
+
+1. Create one new folder in xampp/htdocs folder
+2. Run git init
+3. Run git remote add origin cmacgm@svn-16113.prod.hosting.acquia.com:cmacgm.git
+4. Run git fetch --all
+5. git checkout dev
+6. git pull
+
+
+
+DB import:
+
+1. start apache, mysql in xampp
+2. create one db using phpmyadmin in the browser
+3. Click shell in xampp conrol panel
+4. mysql -u root -p
+5. Press enter without entering anything for the password
+6. show databases;
+7. use dbname;  e.g: use cgmdb;
+8. source <path to sql file>;  e.g: source D:/Databases/cmacgm.sql; (Note: Extract the downloaded sql file and palce it in D drive to avoid access issues)
+
+Host file update in windows folder:
+
+1. Navigate to C:\Windows\System32\drivers\etc
+2. Open Notepad as administrator
+3. Open file hosts file
+4. add the line   127.0.0.1       drupal882  at the end
+
+Host file update in xampp:
+
+1. Navigate to xampp\apache\conf\extra
+2. Open httpd-vhosts.conf file
+3. Add below code and change the path as per your code base in htdocs
+
+<VirtualHost *:80>
+    DocumentRoot "D:\xampp\htdocs\cgmlocal\docroot"
+    ServerName drupal882 
+</VirtualHost>
